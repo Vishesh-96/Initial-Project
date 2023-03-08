@@ -1,0 +1,77 @@
+#version: '3'
+#
+#services:
+#  db:
+#    image: mysql:latest
+#    environment:
+#      MYSQL_DATABASE: VWLab
+#      MYSQL_USER: ecommerceapp
+#      MYSQL_PASSWORD: ecommerceapp
+#      MYSQL_ROOT_PASSWORD: rootpassword
+#    volumes:
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#  app:
+#    build: .
+#    depends_on:
+#      - db
+#    ports:
+#      - "8081:8090"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/VWLab
+#      SPRING_DATASOURCE_USERNAME: ecommerceapp
+#      SPRING_DATASOURCE_PASSWORD: ecommerceapp
+
+#version: '3.8'
+#services:
+#  mysql:
+#    image: mysql:8.0
+#    restart: always
+#    environment:
+#      MYSQL_DATABASE: VWLab
+#      MYSQL_USER: ecommerceapp
+#      MYSQL_PASSWORD: ecommerceapp
+#      MYSQL_ROOT_PASSWORD: rootpassword
+#    volumes:
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#    ports:
+#      - "3306:3306"
+#  ecommerceapp:
+#    image: openjdk:16-jdk-alpine
+#    restart: always
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/VWLab
+#      SPRING_DATASOURCE_USERNAME: ecommerceapp
+#      SPRING_DATASOURCE_PASSWORD: ecommerceapp
+#    ports:
+#      - "8090:8090"
+#    depends_on:
+#      - mysql
+
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+#    restart: always
+    environment:
+      MYSQL_DATABASE: VWLab
+      MYSQL_USER: ecommerceapp
+      MYSQL_PASSWORD: ecommerceapp
+      MYSQL_ROOT_PASSWORD: V!$he$h@123
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3307:3306"
+
+  app:
+    build: .
+    ports:
+      - "8081:8090"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/VWLab?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ecommerceapp
+      SPRING_DATASOURCE_PASSWORD: ecommerceapp
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SERVER_PORT: 8090
